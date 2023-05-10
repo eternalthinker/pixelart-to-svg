@@ -10,7 +10,10 @@ let pixelsPerUnitInput,
   withBackgroundCheckbox,
   withoutBackgroundCheckbox,
   withSizeGuideCheckbox;
+let exportButton, exportDescription;
 let hasError = false;
+
+let checkboxConfigs;
 
 export function initUi(baseConfig) {
   config = baseConfig;
@@ -23,6 +26,23 @@ export function initUi(baseConfig) {
   withBackgroundCheckbox = document.querySelector("#withBackground");
   withoutBackgroundCheckbox = document.querySelector("#withoutBackground");
   withSizeGuideCheckbox = document.querySelector("#withSizeGuide");
+  exportButton = document.querySelector("#exportButton");
+  exportDescription = document.querySelector("#exportDescription");
+
+  checkboxConfigs = [
+    {
+      checkbox: withBackgroundCheckbox,
+      configKey: "withBackground",
+    },
+    {
+      checkbox: withoutBackgroundCheckbox,
+      configKey: "withoutBackground",
+    },
+    {
+      checkbox: withSizeGuideCheckbox,
+      configKey: "withSizeGuide",
+    },
+  ];
 
   const imageUploadInput = document.querySelector("#imageUploadInput");
   imageUploadInput.addEventListener("change", processImageFile);
@@ -54,12 +74,47 @@ export function initUi(baseConfig) {
       configKey: "outputPixelSize",
     },
   ].forEach((inputConfig) => {
-    inputConfig.input.value = config[inputConfig.configKey];
+    inputConfig.input.value = config.sprite[inputConfig.configKey];
     inputConfig.input.addEventListener(
       "input",
       numberInputChangeEventListener(inputConfig)
     );
   });
+
+  checkboxConfigs.forEach((checkboxConfig) => {
+    checkboxConfig.checkbox.checked = config.exports[checkboxConfig.configKey];
+    checkboxConfig.checkbox.addEventListener(
+      "click",
+      checkboxChangeEventListener(checkboxConfig)
+    );
+  });
+
+  exportButton.addEventListener("click", exportSvg);
+}
+
+function exportSvg() {
+  exportDescription.innerText = "";
+  exportDescription.classList.remove("text-gray-500");
+  exportDescription.classList.remove("text-red-500");
+  if (config.pixelImg == null) {
+    exportDescription.classList.add("text-red-500");
+    exportDescription.innerText = "Upload a pixel art before exporting.";
+    return;
+  }
+  if (hasError) {
+    exportDescription.classList.add("text-red-500");
+    exportDescription.innerText = "There are errors in the form fields.";
+    return;
+  }
+  const anyExportTypeSelected = checkboxConfigs.some((checkboxConfig) => {
+    return config.exports[checkboxConfig.configKey];
+  });
+  if (!anyExportTypeSelected) {
+    exportDescription.classList.add("text-red-500");
+    exportDescription.innerText =
+      "At least one export type should be selected.";
+    return;
+  }
 }
 
 function numberInputChangeEventListener({ input, min, configKey }) {
@@ -75,7 +130,14 @@ function numberInputChangeEventListener({ input, min, configKey }) {
     // Remove error
     hasError = false;
     input.classList.remove("border-red-500");
-    config[configKey] = numberValue;
+    config.sprite[configKey] = numberValue;
+  };
+}
+
+function checkboxChangeEventListener({ checkbox, configKey }) {
+  return (e) => {
+    const checked = checkbox.checked;
+    config.exports[configKey] = checked;
   };
 }
 
