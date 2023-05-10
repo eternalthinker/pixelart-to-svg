@@ -2,7 +2,7 @@ export const config = {
   pixelImg: undefined,
   pixelImgBase64: undefined,
   sprite: {
-    pixelsPerUnit: 2,
+    pixelsPerUnit: 10,
     width: 24,
     height: 24,
     padding: 4,

@@ -1,4 +1,5 @@
 import { loadImage } from "./utils";
+import { exportSvg } from "./convert";
 
 let config;
 let previewTag;
@@ -89,10 +90,10 @@ export function initUi(baseConfig) {
     );
   });
 
-  exportButton.addEventListener("click", exportSvg);
+  exportButton.addEventListener("click", handleExport);
 }
 
-function exportSvg() {
+function handleExport() {
   exportDescription.innerText = "";
   exportDescription.classList.remove("text-gray-500");
   exportDescription.classList.remove("text-red-500");
@@ -115,6 +116,9 @@ function exportSvg() {
       "At least one export type should be selected.";
     return;
   }
+  exportButton.disabled = true;
+  exportDescription.classList.add("text-gray-500");
+  exportSvg(config, exportDescription, () => (exportButton.disabled = false));
 }
 
 function numberInputChangeEventListener({ input, min, configKey }) {
