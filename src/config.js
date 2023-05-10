@@ -5,9 +5,10 @@ export const config = {
   width: 24,
   height: 24,
   padding: 4,
+  outputPixelSize: 10,
   exports: {
-    withBackground: true,
+    withBackground: true, // Only if padding >= 1
     withoutBackground: false,
-    withBorder: true, // Only if padding >= 1
+    withSizeGuide: true, // Only if padding >= 1
   },
 };
