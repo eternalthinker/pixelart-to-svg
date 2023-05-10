@@ -10,7 +10,11 @@ export async function exportSvg(config, progressEl, onFinish) {
       pixelImg.height
     );
 
-    const svgs = {};
+    const svgs = {
+      withBackground: [],
+      withoutBackground: [],
+      withSizeGuide: [],
+    };
 
     const worker = new Worker(new URL("./convert_worker.js", import.meta.url));
 
@@ -18,14 +22,8 @@ export async function exportSvg(config, progressEl, onFinish) {
       switch (e.data.type) {
         case "progress": {
           progressEl.innerText = `Processing ${e.data.details}`;
-          makeSvg(e.data.svgData).then((svg) => {
-            if (!svgs.hasOwnProperty(e.data.exportType)) {
-              svgs[e.data.exportType] = [];
-            }
-            svgs[e.data.exportType].push({
-              svg,
-              filename: e.data.filename,
-            });
+          makeSvg(e.data.svgData).then((convertedSvg) => {
+            // Add to appropriate list in svgs
           });
           break;
         }

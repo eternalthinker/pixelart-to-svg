@@ -10,3 +10,12 @@ export async function loadImage(imgPath) {
     image.src = imgPath;
   });
 }
+
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.padStart(2, "0");
+}
+
+export function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
