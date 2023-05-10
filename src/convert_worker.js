@@ -27,10 +27,9 @@ async function convertToSvgData(data) {
   const spriteHeight = (height + padding * 2) * pixelsPerUnit;
   const numRows = Math.floor(spriteSheetHeight / spriteHeight);
   const numCols = Math.floor(spriteSheetWidth / spriteWidth);
+  const numSprites = numRows * numCols;
   postMessage({
     type: "info",
-    message: `We have ${
-      numRows * numCols
-    } images in ${numRows} rows and ${numCols} columns`,
+    message: `We have ${numSprites} images in ${numRows} rows and ${numCols} columns`,
   });
 }
