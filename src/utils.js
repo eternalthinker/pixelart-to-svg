@@ -19,3 +19,18 @@ function componentToHex(c) {
 export function rgbToHex(r, g, b) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
+
+export function localStorageNumber(key, value) {
+  try {
+    if (value == null) {
+      const storedValue = localStorage.getItem(key);
+      if (storedValue != null) {
+        return Number(storedValue);
+      }
+    } else {
+      localStorage.setItem(key, value);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}

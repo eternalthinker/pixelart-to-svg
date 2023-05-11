@@ -1,4 +1,4 @@
-import { loadImage } from "./utils";
+import { loadImage, localStorageNumber } from "./utils";
 import { exportSvg } from "./convert";
 
 let config;
@@ -19,6 +19,7 @@ let checkboxConfigs;
 
 export function initUi(baseConfig) {
   config = baseConfig;
+
   previewTag = document.querySelector("#preview");
   pixelsPerUnitInput = document.querySelector("#pixelsPerUnit");
   widthInput = document.querySelector("#width");
@@ -77,6 +78,10 @@ export function initUi(baseConfig) {
       configKey: "outputPixelSize",
     },
   ].forEach((inputConfig) => {
+    const storedValue = localStorageNumber(inputConfig.configKey);
+    if (storedValue != null) {
+      config.sprite[inputConfig.configKey] = storedValue;
+    }
     inputConfig.input.value = config.sprite[inputConfig.configKey];
     inputConfig.input.addEventListener(
       "input",
@@ -146,6 +151,7 @@ function numberInputChangeEventListener({ input, min, configKey }) {
     hasError = false;
     input.classList.remove("border-red-500");
     config.sprite[configKey] = numberValue;
+    localStorageNumber(configKey, numberValue);
   };
 }
 
