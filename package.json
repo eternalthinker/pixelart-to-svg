@@ -5,7 +5,8 @@
   "author": "Rahul Anand",
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "deploy": "yarn build && gh-pages -d dist"
   },
   "license": "MIT",
   "private": true,
@@ -13,6 +14,7 @@
     "autoprefixer": "^10.4.14",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
+    "gh-pages": "^5.0.0",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.1",
     "postcss": "^8.4.23",
