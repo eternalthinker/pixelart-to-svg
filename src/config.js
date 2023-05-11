@@ -7,6 +7,7 @@ export const config = {
     height: 24,
     padding: 4,
     outputPixelSize: 10,
+    spriteNames: [],
   },
   exports: {
     withBackground: true, // Only if padding >= 1

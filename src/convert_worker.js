@@ -121,8 +121,10 @@ async function convertToSvgData(data) {
             continue;
           }
           const pixelColor = rgbToHex(pixel[0], pixel[1], pixel[2]);
+          const pixelOpacity = pixel[3] / 255;
           svgData.pixels.push({
             fill: pixelColor,
+            opacity: pixelOpacity,
             x: x * outputPixelSize,
             y: y * outputPixelSize,
             w: outputPixelSize,
@@ -144,5 +146,8 @@ async function convertToSvgData(data) {
 
 // Compare two bitmap pixel data
 function isSameRgb(p1, p2) {
+  if (p1 == null || p2 == null) {
+    return false;
+  }
   return p1[0] === p2[0] && p1[1] === p2[1] && p1[2] === p2[2];
 }

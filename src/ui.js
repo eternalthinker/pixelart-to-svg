@@ -93,7 +93,10 @@ export function initUi(baseConfig) {
   });
 
   spriteNamesText.addEventListener("change", (e) => {
-    const value = spriteNamesText.value;
+    const value = spriteNamesText.value.replace(" ", "");
+    if (value.length === 0) {
+      return;
+    }
     const spriteNames = value.split(/\r?\n/g).map((s) => s.trim());
     config.sprite.spriteNames = spriteNames;
   });

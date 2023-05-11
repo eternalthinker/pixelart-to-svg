@@ -64,7 +64,11 @@ function makeSvg(data, exports) {
   const vec = SVG().size(data.w, data.h).viewbox(0, 0, data.w, data.h);
   const group = vec.group();
   data.pixels.forEach((pixel) => {
-    group.rect(pixel.w, pixel.h).fill(pixel.fill).x(pixel.x).y(pixel.y);
+    group
+      .rect(pixel.w, pixel.h)
+      .fill({ color: pixel.fill, opacity: pixel.opacity })
+      .x(pixel.x)
+      .y(pixel.y);
   });
   if (withoutBackground) {
     svgInfo.withoutBackground = {
