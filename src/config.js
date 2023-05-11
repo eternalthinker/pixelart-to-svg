@@ -10,7 +10,7 @@ export const config = {
   },
   exports: {
     withBackground: true, // Only if padding >= 1
-    withoutBackground: false,
-    withSizeGuide: false, // Only if padding >= 1
+    withoutBackground: true,
+    withSizeGuide: true, // Only if padding >= 1
   },
 };

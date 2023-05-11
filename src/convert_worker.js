@@ -16,11 +16,14 @@ onmessage = async (e) => {
 };
 
 async function convertToSvgData(data) {
-  const { canvas, pixelImg, spriteConfig, exportTypes } = data;
+  const { canvas, pixelImg, spriteConfig } = data;
   const { pixelsPerUnit, width, height, padding, outputPixelSize } =
     spriteConfig;
 
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d", {
+    willReadFrequently: true,
+    antialias: false,
+  });
   ctx.drawImage(pixelImg, 0, 0);
 
   const spriteSheetWidth = canvas.width;
@@ -41,12 +44,19 @@ async function convertToSvgData(data) {
       const svgData = {
         filename: `image${svgCount}`,
         padding: padding * outputPixelSize,
+        w: width * outputPixelSize,
+        h: height * outputPixelSize,
         pixels: [],
       };
       let bgPixel;
 
       if (padding > 0) {
-        bgPixel = ctx.getImageData(0, 0, 1, 1).data;
+        bgPixel = ctx.getImageData(
+          spriteWidth * col,
+          spriteHeight * row,
+          1,
+          1
+        ).data;
         const bgColor = rgbToHex(bgPixel[0], bgPixel[1], bgPixel[2]);
         svgData.background = {
           fill: bgColor,
@@ -57,13 +67,16 @@ async function convertToSvgData(data) {
         };
 
         svgData.guide = {
+          fill: {
+            opacity: 0,
+          },
           stroke: {
             w: outputPixelSize,
             opacity: 0.25,
             color: "#000000",
           },
-          x: (padding - 1) * outputPixelSize,
-          y: (padding - 1) * outputPixelSize,
+          x: (padding - 0.5) * outputPixelSize,
+          y: (padding - 0.5) * outputPixelSize,
           w: (width + 1) * outputPixelSize,
           h: (height + 1) * outputPixelSize,
         };
@@ -73,12 +86,9 @@ async function convertToSvgData(data) {
       for (let y = 0; y < height; ++y) {
         // For each column
         for (let x = 0; x < width; ++x) {
-          const pixel = ctx.getImageData(
-            (x + padding) * pixelsPerUnit,
-            (y + padding) * pixelsPerUnit,
-            1,
-            1
-          ).data;
+          const sx = spriteWidth * col + (x + padding) * pixelsPerUnit;
+          const sy = spriteHeight * row + (y + padding) * pixelsPerUnit;
+          const pixel = ctx.getImageData(sx, sy, 1, 1).data;
           if (isSameRgb(pixel, bgPixel)) {
             // Treat bg color pixels as transparent
             continue;
