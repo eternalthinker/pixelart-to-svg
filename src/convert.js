@@ -61,7 +61,10 @@ function makeSvg(data, exports) {
   const svgInfo = {};
   const { withBackground, withoutBackground, withSizeGuide } = exports;
 
-  const vec = SVG().size(data.w, data.h).viewbox(0, 0, data.w, data.h);
+  const vec = SVG()
+    .size(data.w, data.h)
+    .viewbox(0, 0, data.w, data.h)
+    .attr("shape-rendering", "crispEdges");
   const group = vec.group();
   data.pixels.forEach((pixel) => {
     group
@@ -79,7 +82,10 @@ function makeSvg(data, exports) {
 
   if (data.padding > 0 && (withBackground || withSizeGuide)) {
     const bg = data.background;
-    const vecBg = SVG().size(bg.w, bg.h).viewbox(0, 0, bg.w, bg.h);
+    const vecBg = SVG()
+      .size(bg.w, bg.h)
+      .viewbox(0, 0, bg.w, bg.h)
+      .attr("shape-rendering", "crispEdges");
     vecBg.rect(bg.w, bg.h).fill(bg.fill).x(bg.x).y(bg.y);
     vecBg.svg(group.svg());
     const bgGroup = vecBg.get(1);
@@ -92,7 +98,10 @@ function makeSvg(data, exports) {
     }
 
     if (withSizeGuide) {
-      const vecGuide = SVG();
+      const vecGuide = SVG()
+        .size(bg.w, bg.h)
+        .viewbox(0, 0, bg.w, bg.h)
+        .attr("shape-rendering", "crispEdges");
       vecGuide.svg(vecBg.svg(false));
 
       const guide = data.guide;
