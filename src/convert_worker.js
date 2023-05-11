@@ -116,12 +116,13 @@ async function convertToSvgData(data) {
           const sx = spriteWidth * col + (x + padding) * pixelsPerUnit;
           const sy = spriteHeight * row + (y + padding) * pixelsPerUnit;
           const pixel = ctx.getImageData(sx, sy, 1, 1).data;
-          if (isSameRgb(pixel, bgPixel)) {
-            // Treat bg color pixels as transparent
+          const pixelOpacity = pixel[3] / 255;
+          if (isSameRgb(pixel, bgPixel) || pixelOpacity === 0) {
+            // Skip transparent pixels.
+            // Treat bg color pixels as transparent.
             continue;
           }
           const pixelColor = rgbToHex(pixel[0], pixel[1], pixel[2]);
-          const pixelOpacity = pixel[3] / 255;
           svgData.pixels.push({
             fill: pixelColor,
             opacity: pixelOpacity,
