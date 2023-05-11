@@ -11,18 +11,20 @@
 
       <div class="grid grid-cols-2 gap-5">
         <div>
-          <p class="text-sm">
+          <p class="mb-1">
             Upload a single pixel art or a grid of uniform sized sprites.
           </p>
-          <p class="text-sm">
-            The sprite(s) can have uniform padding and a solid background - this
-            can be controlled in the export options.
+          <p class="mb-1">
+            If the sprites have a solid background, it can be exported as a
+            separate rect. The conversion can also account for additional
+            padding on such sprites.
           </p>
-          <p class="text-sm mb-4">
-            An SVG is exported per sprite. An individual square is used per
-            solid pixel. A separate rectangle is used if a solid background is
-            included. Background and size-guide is included only when there is a
-            padding greater than 0.
+          <p class="mb-4">
+            An SVG is exported per sprite.<br />
+            An individual rect is used per solid pixel. Same color pixels are
+            <i>not</i> combined.<br />
+            Background and size-guide is included only when there is a padding
+            greater than 0.
           </p>
           <input type="file" id="imageUploadInput" accept="image/*" hidden />
           <label
@@ -48,32 +50,40 @@
                     min="1"
                     class="w-28 border-2 border-gray-400 rounded p-1"
                   />
+                  <p class="text-sm text-gray-500">
+                    Number of real pixels per sprite pixel.
+                  </p>
                 </div>
 
-                <div class="w-fit grid grid-cols-2 gap-4">
-                  <div class="flex flex-col gap-1">
-                    <label for="width" class="text-sm font-semibold"
-                      >Width</label
-                    >
-                    <input
-                      id="width"
-                      type="number"
-                      min="1"
-                      class="w-28 border-2 border-gray-400 rounded p-1"
-                    />
-                  </div>
+                <div class="flex flex-col gap-1">
+                  <div class="w-fit grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1">
+                      <label for="width" class="text-sm font-semibold"
+                        >Width</label
+                      >
+                      <input
+                        id="width"
+                        type="number"
+                        min="1"
+                        class="w-28 border-2 border-gray-400 rounded p-1"
+                      />
+                    </div>
 
-                  <div class="flex flex-col gap-1">
-                    <label for="height" class="text-sm font-semibold"
-                      >Height</label
-                    >
-                    <input
-                      id="height"
-                      type="number"
-                      min="1"
-                      class="w-28 border-2 border-gray-400 rounded p-1"
-                    />
+                    <div class="flex flex-col gap-1">
+                      <label for="height" class="text-sm font-semibold"
+                        >Height</label
+                      >
+                      <input
+                        id="height"
+                        type="number"
+                        min="1"
+                        class="w-28 border-2 border-gray-400 rounded p-1"
+                      />
+                    </div>
                   </div>
+                  <p class="text-sm text-gray-500">
+                    Size of an individual sprite.
+                  </p>
                 </div>
 
                 <div class="flex flex-col gap-1">
@@ -86,6 +96,9 @@
                     min="0"
                     class="w-28 border-2 border-gray-400 rounded p-1"
                   />
+                  <p class="text-sm text-gray-500">
+                    Padding in addition to sprite size.
+                  </p>
                 </div>
 
                 <div class="flex flex-col gap-1">
@@ -98,6 +111,9 @@
                     min="1"
                     class="w-28 border-2 border-gray-400 rounded p-1"
                   />
+                  <p class="text-sm text-gray-500">
+                    Size of one pixel in the output SVG.
+                  </p>
                 </div>
               </div>
               <!-- END sprite dimension fields -->
@@ -108,7 +124,8 @@
                     >Sprite names</label
                   >
                   <p class="text-sm text-gray-500">
-                    Names of individual sprites in separate lines.
+                    Names of individual sprites in separate lines.<br/>
+                    Generated names are used when custom names are not available.
                   </p>
                   <textarea
                     id="spriteNames"
