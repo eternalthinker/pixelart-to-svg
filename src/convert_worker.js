@@ -17,8 +17,14 @@ onmessage = async (e) => {
 
 async function convertToSvgData(data) {
   const { canvas, pixelImg, spriteConfig } = data;
-  const { pixelsPerUnit, width, height, padding, outputPixelSize } =
-    spriteConfig;
+  const {
+    pixelsPerUnit,
+    width,
+    height,
+    padding,
+    outputPixelSize,
+    spriteNames,
+  } = spriteConfig;
 
   const ctx = canvas.getContext("2d", {
     willReadFrequently: true,
@@ -41,8 +47,12 @@ async function convertToSvgData(data) {
   let svgCount = 1;
   for (let row = 0; row < numRows; ++row) {
     for (let col = 0; col < numCols; ++col) {
+      let filename = `image${svgCount}`;
+      if (spriteNames.length > svgCount - 1) {
+        filename = spriteNames[svgCount - 1];
+      }
       const svgData = {
-        filename: `image${svgCount}`,
+        filename,
         padding: padding * outputPixelSize,
         w: width * outputPixelSize,
         h: height * outputPixelSize,

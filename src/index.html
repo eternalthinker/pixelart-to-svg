@@ -21,8 +21,8 @@
           <p class="text-sm mb-4">
             An SVG is exported per sprite. An individual square is used per
             solid pixel. A separate rectangle is used if a solid background is
-            included. Background and size-guide is included only when there is
-            a padding greater than 0.
+            included. Background and size-guide is included only when there is a
+            padding greater than 0.
           </p>
           <input type="file" id="imageUploadInput" accept="image/*" hidden />
           <label
@@ -36,61 +36,92 @@
 
         <div class="border-l-2 border-gray-300 pl-4">
           <div class="flex flex-col gap-3">
-            <div class="flex flex-col gap-1">
-              <label for="pixelsPerUnit" class="text-sm font-semibold">
-                Pixels per unit
-              </label>
-              <input
-                id="pixelsPerUnit"
-                type="number"
-                min="1"
-                class="w-28 border-2 border-gray-400 rounded p-1"
-              />
-            </div>
+            <div class="flex gap-4">
+              <div class="w-fit flex flex-col gap-3">
+                <div class="flex flex-col gap-1">
+                  <label for="pixelsPerUnit" class="text-sm font-semibold">
+                    Pixels per unit
+                  </label>
+                  <input
+                    id="pixelsPerUnit"
+                    type="number"
+                    min="1"
+                    class="w-28 border-2 border-gray-400 rounded p-1"
+                  />
+                </div>
 
-            <div class="w-fit grid grid-cols-2 gap-4">
-              <div class="flex flex-col gap-1">
-                <label for="width" class="text-sm font-semibold">Width</label>
-                <input
-                  id="width"
-                  type="number"
-                  min="1"
-                  class="w-28 border-2 border-gray-400 rounded p-1"
-                />
+                <div class="w-fit grid grid-cols-2 gap-4">
+                  <div class="flex flex-col gap-1">
+                    <label for="width" class="text-sm font-semibold"
+                      >Width</label
+                    >
+                    <input
+                      id="width"
+                      type="number"
+                      min="1"
+                      class="w-28 border-2 border-gray-400 rounded p-1"
+                    />
+                  </div>
+
+                  <div class="flex flex-col gap-1">
+                    <label for="height" class="text-sm font-semibold"
+                      >Height</label
+                    >
+                    <input
+                      id="height"
+                      type="number"
+                      min="1"
+                      class="w-28 border-2 border-gray-400 rounded p-1"
+                    />
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                  <label for="padding" class="text-sm font-semibold"
+                    >Padding</label
+                  >
+                  <input
+                    id="padding"
+                    type="number"
+                    min="0"
+                    class="w-28 border-2 border-gray-400 rounded p-1"
+                  />
+                </div>
+
+                <div class="flex flex-col gap-1">
+                  <label for="outputPixelSize" class="text-sm font-semibold"
+                    >Output pixel size</label
+                  >
+                  <input
+                    id="outputPixelSize"
+                    type="number"
+                    min="1"
+                    class="w-28 border-2 border-gray-400 rounded p-1"
+                  />
+                </div>
               </div>
+              <!-- END sprite dimension fields -->
 
-              <div class="flex flex-col gap-1">
-                <label for="height" class="text-sm font-semibold">Height</label>
-                <input
-                  id="height"
-                  type="number"
-                  min="1"
-                  class="w-28 border-2 border-gray-400 rounded p-1"
-                />
+              <div class="border-l-2 border-gray-300 pl-4">
+                <div class="flex flex-col gap-1">
+                  <label for="spriteNames" class="text-sm font-semibold"
+                    >Sprite names</label
+                  >
+                  <p class="text-sm text-gray-500">
+                    Names of individual sprites in separate lines.
+                  </p>
+                  <textarea
+                    id="spriteNames"
+                    rows="10"
+                    cols="10"
+                    class="border-2 border-gray-400 rounded p-1"
+                  >
+                  </textarea>
+                </div>
               </div>
+              <!-- END text area column -->
             </div>
-
-            <div class="flex flex-col gap-1">
-              <label for="padding" class="text-sm font-semibold">Padding</label>
-              <input
-                id="padding"
-                type="number"
-                min="0"
-                class="w-28 border-2 border-gray-400 rounded p-1"
-              />
-            </div>
-
-            <div class="flex flex-col gap-1">
-              <label for="outputPixelSize" class="text-sm font-semibold"
-                >Output pixel size</label
-              >
-              <input
-                id="outputPixelSize"
-                type="number"
-                min="1"
-                class="w-28 border-2 border-gray-400 rounded p-1"
-              />
-            </div>
+            <!-- END form fields grid -->
 
             <div class="flex flex-col gap-3">
               <p class="font-semibold">Exports</p>
@@ -150,10 +181,7 @@
             <!-- END export types -->
 
             <button
-              class="w-fit cursor-pointer font-semibold py-2 px-4 rounded
-                bg-purple-700 text-purple-50 hover:bg-purple-900 hover:text-white
-                disabled:cursor-not-allowed disabled:bg-purple-400 disabled:text-purple-100
-              "
+              class="w-fit cursor-pointer font-semibold py-2 px-4 rounded bg-purple-700 text-purple-50 hover:bg-purple-900 hover:text-white disabled:cursor-not-allowed disabled:bg-purple-400 disabled:text-purple-100"
               id="exportButton"
             >
               Export SVG

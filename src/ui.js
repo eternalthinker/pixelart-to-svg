@@ -10,7 +10,8 @@ let pixelsPerUnitInput,
   outputPixelSizeInput,
   withBackgroundCheckbox,
   withoutBackgroundCheckbox,
-  withSizeGuideCheckbox;
+  withSizeGuideCheckbox,
+  spriteNamesText;
 let exportButton, exportDescription;
 let hasError = false;
 
@@ -29,6 +30,7 @@ export function initUi(baseConfig) {
   withSizeGuideCheckbox = document.querySelector("#withSizeGuide");
   exportButton = document.querySelector("#exportButton");
   exportDescription = document.querySelector("#exportDescription");
+  spriteNamesText = document.querySelector("#spriteNames");
 
   checkboxConfigs = [
     {
@@ -88,6 +90,12 @@ export function initUi(baseConfig) {
       "click",
       checkboxChangeEventListener(checkboxConfig)
     );
+  });
+
+  spriteNamesText.addEventListener("change", (e) => {
+    const value = spriteNamesText.value;
+    const spriteNames = value.split(/\r?\n/g).map((s) => s.trim());
+    config.sprite.spriteNames = spriteNames;
   });
 
   exportButton.addEventListener("click", handleExport);
