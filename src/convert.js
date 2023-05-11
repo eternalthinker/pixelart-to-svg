@@ -90,20 +90,25 @@ function makeSvg(data, exports) {
     if (withSizeGuide) {
       const vecGuide = SVG();
       vecGuide.svg(vecBg.svg(false));
+
       const guide = data.guide;
-      vecGuide
-        .rect(guide.w, guide.h)
-        .attr("fill", null)
-        .fill({
-          opacity: guide.fill.opacity,
-        })
-        .stroke({
-          color: guide.stroke.color,
-          opacity: guide.stroke.opacity,
-          width: guide.stroke.w,
-        })
-        .x(guide.x)
-        .y(guide.y);
+      const guideGroup = vecGuide.group();
+      guideGroup.backward();
+      const mask = guideGroup.mask();
+      guide.mask.forEach((maskRect) => {
+        const rect = guideGroup
+          .rect(maskRect.w, maskRect.h)
+          .fill(maskRect.fill)
+          .x(maskRect.x)
+          .y(maskRect.y);
+        mask.add(rect);
+      });
+      const maskedRect = guideGroup
+        .rect(guide.masked.w, guide.masked.h)
+        .fill(guide.masked.fill)
+        .x(guide.masked.x)
+        .y(guide.masked.y);
+      maskedRect.maskWith(mask);
 
       svgInfo.withSizeGuide = {
         svg: vecGuide.svg(),

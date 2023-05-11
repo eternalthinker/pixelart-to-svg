@@ -67,18 +67,35 @@ async function convertToSvgData(data) {
         };
 
         svgData.guide = {
-          fill: {
-            opacity: 0,
+          // A black rectangle on a grey rectangle as mask.
+          // A black rectangle as masked, causing only
+          // the borders to show with transparency.
+          //
+          // Stroke is not used as it doesn't scale
+          // proportionally with pixels (Eg: in Figma).
+          mask: [
+            {
+              x: (padding - 1) * outputPixelSize,
+              y: (padding - 1) * outputPixelSize,
+              w: (width + 2) * outputPixelSize,
+              h: (height + 2) * outputPixelSize,
+              fill: "#3F3F3F",
+            },
+            {
+              x: padding * outputPixelSize,
+              y: padding * outputPixelSize,
+              w: width * outputPixelSize,
+              h: width * outputPixelSize,
+              fill: "#000000",
+            },
+          ],
+          masked: {
+            x: (padding - 1) * outputPixelSize,
+            y: (padding - 1) * outputPixelSize,
+            w: (width + 2) * outputPixelSize,
+            h: (height + 2) * outputPixelSize,
+            fill: "#000000",
           },
-          stroke: {
-            w: outputPixelSize,
-            opacity: 0.25,
-            color: "#000000",
-          },
-          x: (padding - 0.5) * outputPixelSize,
-          y: (padding - 0.5) * outputPixelSize,
-          w: (width + 1) * outputPixelSize,
-          h: (height + 1) * outputPixelSize,
         };
       }
 
