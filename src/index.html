@@ -26,7 +26,7 @@
             Background and size-guide is included only when there is a padding
             greater than 0.
           </p>
-          <input type="file" id="imageUploadInput" accept="image/*" hidden />
+          <input type="file" id="imageUploadInput" accept=".png,.jpg,.jpeg,.gif" hidden />
           <label
             class="w-fit cursor-pointer font-semibold py-2 px-4 rounded bg-purple-700 text-purple-50 hover:bg-purple-900 hover:text-white"
             for="imageUploadInput"
@@ -39,19 +39,37 @@
         <div class="border-l-2 border-gray-300 pl-4">
           <div class="flex flex-col gap-3">
             <div class="grid grid-cols-2 gap-4">
+              <!-- Export fields container-->
               <div class="w-fit flex flex-col gap-3">
+
                 <div class="flex flex-col gap-1">
-                  <label for="pixelsPerUnit" class="text-sm font-semibold">
-                    Pixels per unit
-                  </label>
-                  <input
-                    id="pixelsPerUnit"
-                    type="number"
-                    min="1"
-                    class="w-28 border-2 border-gray-400 rounded p-1"
-                  />
+                  <div class="w-fit grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1">
+                      <label for="nRows" class="text-sm font-semibold"
+                        >Rows</label
+                      >
+                      <input
+                        id="nRows"
+                        type="number"
+                        min="1"
+                        class="w-28 border-2 border-gray-400 rounded p-1"
+                      />
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                      <label for="nCols" class="text-sm font-semibold"
+                        >Columns</label
+                      >
+                      <input
+                        id="nCols"
+                        type="number"
+                        min="1"
+                        class="w-28 border-2 border-gray-400 rounded p-1"
+                      />
+                    </div>
+                  </div>
                   <p class="text-sm text-gray-500">
-                    Number of real pixels per sprite pixel.
+                    Number of sprites in the grid, per row and col.
                   </p>
                 </div>
 
@@ -82,7 +100,7 @@
                     </div>
                   </div>
                   <p class="text-sm text-gray-500">
-                    Size of an individual sprite.
+                    Size of a single sprite, without padding.
                   </p>
                 </div>
 
@@ -97,7 +115,7 @@
                     class="w-28 border-2 border-gray-400 rounded p-1"
                   />
                   <p class="text-sm text-gray-500">
-                    Padding in addition to sprite size.
+                    Number of padding pixels around a sprite.
                   </p>
                 </div>
 

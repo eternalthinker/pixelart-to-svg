@@ -1,11 +1,13 @@
 import { loadImage, localStorageNumber } from "./utils";
 import { exportSvg } from "./convert";
+import { SVG } from "@svgdotjs/svg.js";
 
 let config;
 let previewTag;
-let pixelsPerUnitInput,
-  widthInput,
+let widthInput,
   heightInput,
+  nRowsInput,
+  nColsInput,
   paddingInput,
   outputPixelSizeInput,
   withBackgroundCheckbox,
@@ -21,9 +23,10 @@ export function initUi(baseConfig) {
   config = baseConfig;
 
   previewTag = document.querySelector("#preview");
-  pixelsPerUnitInput = document.querySelector("#pixelsPerUnit");
   widthInput = document.querySelector("#width");
   heightInput = document.querySelector("#height");
+  nRowsInput = document.querySelector("#nRows");
+  nColsInput = document.querySelector("#nCols");
   paddingInput = document.querySelector("#padding");
   outputPixelSizeInput = document.querySelector("#outputPixelSize");
   withBackgroundCheckbox = document.querySelector("#withBackground");
@@ -53,11 +56,6 @@ export function initUi(baseConfig) {
 
   [
     {
-      input: pixelsPerUnitInput,
-      min: 1,
-      configKey: "pixelsPerUnit",
-    },
-    {
       input: widthInput,
       min: 1,
       configKey: "width",
@@ -66,6 +64,16 @@ export function initUi(baseConfig) {
       input: heightInput,
       min: 1,
       configKey: "height",
+    },
+    {
+      input: nRowsInput,
+      min: 1,
+      configKey: "nRows",
+    },
+    {
+      input: nColsInput,
+      min: 1,
+      configKey: "nCols",
     },
     {
       input: paddingInput,
@@ -162,11 +170,23 @@ function checkboxChangeEventListener({ checkbox, configKey }) {
   };
 }
 
-function processImageFile(e) {
-  const file = e.currentTarget.files[0];
+async function processImageFile(e) {
+  let file = e.currentTarget.files[0];
   if (!file) {
     return;
   }
+  // if (/\.svg$/i.test(file.name)) {
+  //   // Make sure svg has crisp edges
+  //   const svgContent = await file.text();
+  //   const uploadSvgContainer = SVG().svg(svgContent);
+  //   const uploadSvg = uploadSvgContainer.get(0);
+  //   const crispSvg = SVG()
+  //     .attr(uploadSvg.attr())
+  //     .attr("shape-rendering", null)
+  //     .attr("shape-rendering", "crispEdges");
+  //   crispSvg.svg(uploadSvg.svg(false));
+  //   file = new File([crispSvg.svg()], file.name, { type: file.type });
+  // }
   const reader = new FileReader();
   reader.onload = async function () {
     const pixelImg = await loadImage(reader.result);

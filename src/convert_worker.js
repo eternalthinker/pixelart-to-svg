@@ -17,14 +17,8 @@ onmessage = async (e) => {
 
 async function convertToSvgData(data) {
   const { canvas, pixelImg, spriteConfig } = data;
-  const {
-    pixelsPerUnit,
-    width,
-    height,
-    padding,
-    outputPixelSize,
-    spriteNames,
-  } = spriteConfig;
+  const { width, height, nRows, nCols, padding, outputPixelSize, spriteNames } =
+    spriteConfig;
 
   const ctx = canvas.getContext("2d", {
     willReadFrequently: true,
@@ -34,19 +28,22 @@ async function convertToSvgData(data) {
 
   const spriteSheetWidth = canvas.width;
   const spriteSheetHeight = canvas.height;
-  const spriteWidth = (width + padding * 2) * pixelsPerUnit;
-  const spriteHeight = (height + padding * 2) * pixelsPerUnit;
-  const numRows = Math.floor(spriteSheetHeight / spriteHeight);
-  const numCols = Math.floor(spriteSheetWidth / spriteWidth);
-  const numSprites = numRows * numCols;
+  const spriteWidth = spriteSheetWidth / nCols;
+  const spriteHeight = spriteSheetHeight / nRows;
+  const pixelsPerUnit = spriteWidth / (width + 2 * padding);
+  const numSprites = nRows * nCols;
   postMessage({
     type: "info",
-    message: `We have ${numSprites} images in ${numRows} rows and ${numCols} columns`,
+    message: `We have ${numSprites} images in ${nRows} rows and ${nCols} columns, ${pixelsPerUnit} ppu`,
+  });
+  postMessage({
+    type: "info",
+    message: `sheetw: ${spriteSheetWidth}, sheeth: ${spriteSheetHeight}`,
   });
 
   let svgCount = 1;
-  for (let row = 0; row < numRows; ++row) {
-    for (let col = 0; col < numCols; ++col) {
+  for (let row = 0; row < nRows; ++row) {
+    for (let col = 0; col < nCols; ++col) {
       let filename = `image${svgCount}`;
       if (spriteNames.length > svgCount - 1) {
         filename = spriteNames[svgCount - 1];

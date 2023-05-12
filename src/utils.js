@@ -5,7 +5,7 @@ export async function loadImage(imgPath) {
       resolve(image);
     };
     image.onerror = function () {
-      reject(new Error(`Image ${imgPath} cannot be loaded`));
+      reject(new Error(`Image cannot be loaded`));
     };
     image.src = imgPath;
   });
