@@ -36,10 +36,6 @@ async function convertToSvgData(data) {
     type: "info",
     message: `We have ${numSprites} images in ${nRows} rows and ${nCols} columns, ${pixelsPerUnit} ppu`,
   });
-  postMessage({
-    type: "info",
-    message: `sheetw: ${spriteSheetWidth}, sheeth: ${spriteSheetHeight}`,
-  });
 
   let svgCount = 1;
   for (let row = 0; row < nRows; ++row) {
