@@ -17,8 +17,17 @@ onmessage = async (e) => {
 
 async function convertToSvgData(data) {
   const { canvas, pixelImg, spriteConfig } = data;
-  const { width, height, nRows, nCols, padding, outputPixelSize, spriteNames } =
-    spriteConfig;
+  const {
+    width,
+    height,
+    nRows,
+    nCols,
+    padding,
+    outputPixelSize,
+    outputPadding,
+    spriteNames,
+  } = spriteConfig;
+  const outputPaddingFinal = padding === 0 ? 0 : outputPadding;
 
   const ctx = canvas.getContext("2d", {
     willReadFrequently: true,
@@ -46,7 +55,7 @@ async function convertToSvgData(data) {
       }
       const svgData = {
         filename,
-        padding: padding * outputPixelSize,
+        padding: outputPadding * outputPixelSize,
         w: width * outputPixelSize,
         h: height * outputPixelSize,
         pixels: [],
@@ -65,41 +74,43 @@ async function convertToSvgData(data) {
           fill: bgColor,
           x: 0,
           y: 0,
-          w: (width + padding * 2) * outputPixelSize,
-          h: (height + padding * 2) * outputPixelSize,
+          w: (width + outputPadding * 2) * outputPixelSize,
+          h: (height + outputPadding * 2) * outputPixelSize,
         };
 
-        svgData.guide = {
-          // A black rectangle on a grey rectangle as mask.
-          // A black rectangle as masked, causing only
-          // the borders to show with transparency.
-          //
-          // Stroke is not used as it doesn't scale
-          // proportionally with pixels (Eg: in Figma).
-          mask: [
-            {
-              x: (padding - 1) * outputPixelSize,
-              y: (padding - 1) * outputPixelSize,
+        if (outputPadding > 0) {
+          svgData.guide = {
+            // A black rectangle on a grey rectangle as mask.
+            // A black rectangle as masked, causing only
+            // the borders to show with transparency.
+            //
+            // Stroke is not used as it doesn't scale
+            // proportionally with pixels (Eg: in Figma).
+            mask: [
+              {
+                x: (outputPadding - 1) * outputPixelSize,
+                y: (outputPadding - 1) * outputPixelSize,
+                w: (width + 2) * outputPixelSize,
+                h: (height + 2) * outputPixelSize,
+                fill: "#3F3F3F",
+              },
+              {
+                x: outputPadding * outputPixelSize,
+                y: outputPadding * outputPixelSize,
+                w: width * outputPixelSize,
+                h: width * outputPixelSize,
+                fill: "#000000",
+              },
+            ],
+            masked: {
+              x: (outputPadding - 1) * outputPixelSize,
+              y: (outputPadding - 1) * outputPixelSize,
               w: (width + 2) * outputPixelSize,
               h: (height + 2) * outputPixelSize,
-              fill: "#3F3F3F",
-            },
-            {
-              x: padding * outputPixelSize,
-              y: padding * outputPixelSize,
-              w: width * outputPixelSize,
-              h: width * outputPixelSize,
               fill: "#000000",
             },
-          ],
-          masked: {
-            x: (padding - 1) * outputPixelSize,
-            y: (padding - 1) * outputPixelSize,
-            w: (width + 2) * outputPixelSize,
-            h: (height + 2) * outputPixelSize,
-            fill: "#000000",
-          },
-        };
+          };
+        }
       }
 
       // For each row

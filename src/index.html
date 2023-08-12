@@ -26,7 +26,12 @@
             Background and size-guide is included only when there is a padding
             greater than 0.
           </p>
-          <input type="file" id="imageUploadInput" accept=".png,.jpg,.jpeg,.gif" hidden />
+          <input
+            type="file"
+            id="imageUploadInput"
+            accept=".png,.jpg,.jpeg,.gif"
+            hidden
+          />
           <label
             class="w-fit cursor-pointer font-semibold py-2 px-4 rounded bg-purple-700 text-purple-50 hover:bg-purple-900 hover:text-white"
             for="imageUploadInput"
@@ -41,7 +46,6 @@
             <div class="grid grid-cols-2 gap-4">
               <!-- Export fields container-->
               <div class="w-fit flex flex-col gap-3">
-
                 <div class="flex flex-col gap-1">
                   <div class="w-fit grid grid-cols-2 gap-4">
                     <div class="flex flex-col gap-1">
@@ -119,21 +123,41 @@
                   </p>
                 </div>
 
-                <div class="flex flex-col gap-1">
-                  <label for="outputPixelSize" class="text-sm font-semibold"
-                    >Output pixel size</label
-                  >
-                  <input
-                    id="outputPixelSize"
-                    type="number"
-                    min="1"
-                    class="w-28 border-2 border-gray-400 rounded p-1"
-                  />
-                  <p class="text-sm text-gray-500">
-                    Size of one pixel in the output SVG.
-                  </p>
+                <p for="outputPixelSize" class="font-semibold">Output</p>
+                <div class="w-fit grid grid-cols-2 gap-4">
+                  <div class="flex flex-col gap-1">
+                    <label for="outputPixelSize" class="text-sm font-semibold"
+                      >Pixel size</label
+                    >
+                    <input
+                      id="outputPixelSize"
+                      type="number"
+                      min="1"
+                      class="w-28 border-2 border-gray-400 rounded p-1"
+                    />
+                    <p class="text-sm text-gray-500">
+                      Size of one pixel in the output SVG.
+                    </p>
+                  </div>
+
+                  <div class="flex flex-col gap-1">
+                    <label for="outputPadding" class="text-sm font-semibold"
+                      >Padding</label
+                    >
+                    <input
+                      id="outputPadding"
+                      type="number"
+                      min="0"
+                      class="w-28 border-2 border-gray-400 rounded p-1"
+                    />
+                    <p class="text-sm text-gray-500">
+                      Number of padding pixels.
+                    </p>
+                  </div>
                 </div>
+
               </div>
+
               <!-- END sprite dimension fields -->
 
               <div class="border-l-2 border-gray-300 pl-4">
@@ -142,8 +166,9 @@
                     >Sprite names</label
                   >
                   <p class="text-sm text-gray-500">
-                    Names of individual sprites in separate lines.<br/>
-                    Generated names are used when custom names are not available.
+                    Names of individual sprites in separate lines.<br />
+                    Generated names are used when custom names are not
+                    available.
                   </p>
                   <textarea
                     id="spriteNames"

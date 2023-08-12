@@ -10,6 +10,7 @@ let widthInput,
   nColsInput,
   paddingInput,
   outputPixelSizeInput,
+  outputPaddingInput,
   withBackgroundCheckbox,
   withoutBackgroundCheckbox,
   withSizeGuideCheckbox,
@@ -29,6 +30,7 @@ export function initUi(baseConfig) {
   nColsInput = document.querySelector("#nCols");
   paddingInput = document.querySelector("#padding");
   outputPixelSizeInput = document.querySelector("#outputPixelSize");
+  outputPaddingInput = document.querySelector("#outputPadding");
   withBackgroundCheckbox = document.querySelector("#withBackground");
   withoutBackgroundCheckbox = document.querySelector("#withoutBackground");
   withSizeGuideCheckbox = document.querySelector("#withSizeGuide");
@@ -79,11 +81,19 @@ export function initUi(baseConfig) {
       input: paddingInput,
       min: 0,
       configKey: "padding",
+      onValidChange: (value) => {
+        outputPaddingInput.value = value;
+      },
     },
     {
       input: outputPixelSizeInput,
       min: 1,
       configKey: "outputPixelSize",
+    },
+    {
+      input: outputPaddingInput,
+      min: 0,
+      configKey: "outputPadding",
     },
   ].forEach((inputConfig) => {
     const storedValue = localStorageNumber(inputConfig.configKey);
@@ -145,7 +155,12 @@ function handleExport() {
   exportSvg(config, exportDescription, () => (exportButton.disabled = false));
 }
 
-function numberInputChangeEventListener({ input, min, configKey }) {
+function numberInputChangeEventListener({
+  input,
+  min,
+  configKey,
+  onValidChange,
+}) {
   return (e) => {
     const value = input.value;
     const numberValue = Number(value);
@@ -160,6 +175,7 @@ function numberInputChangeEventListener({ input, min, configKey }) {
     input.classList.remove("border-red-500");
     config.sprite[configKey] = numberValue;
     localStorageNumber(configKey, numberValue);
+    onValidChange?.(numberValue);
   };
 }
 

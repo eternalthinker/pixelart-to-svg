@@ -8,11 +8,12 @@ export const config = {
     nCols: 1,
     padding: 4,
     outputPixelSize: 10,
+    outputPadding: 4,
     spriteNames: [],
   },
   exports: {
     withBackground: true, // Only if padding >= 1
     withoutBackground: true,
-    withSizeGuide: true, // Only if padding >= 1
+    withSizeGuide: true, // Only if output padding >= 1
   },
 };
